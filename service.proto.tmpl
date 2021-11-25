@@ -35,9 +35,9 @@ message Delete{{.name}}Request {
 }
 
 service ItemStorage {
-  rpc GetItem(GetItemRequest) returns (GetItemResponse);
-  rpc GetAllItems(google.protobuf.Empty) returns (GetAll{{.name}}sResponse);
+  rpc GetItem (GetItemRequest) returns (GetItemResponse);
+  rpc GetAllItems (google.protobuf.Empty) returns (GetAll{{.name}}sResponse);
   rpc Create{{.name}} (Create{{.name}}Request) returns (Create{{.name}}Response);
   rpc Update{{.name}} (Update{{.name}}Request) returns (Update{{.name}}Response);
-  rpc Delete(Delete{{.name}}Request) returns (google.protobuf.Empty);
+  rpc Delete{{.name}} (Delete{{.name}}Request) returns (google.protobuf.Empty);
 }
