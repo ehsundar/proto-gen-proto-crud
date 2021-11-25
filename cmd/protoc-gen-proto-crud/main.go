@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -9,6 +10,9 @@ import (
 
 	"google.golang.org/protobuf/compiler/protogen"
 )
+
+//go:embed templates/service.proto.tmpl
+var serviceProtoTemplate string
 
 type ProtoMessageDescOptions struct {
 	Kind string
@@ -67,7 +71,7 @@ func renderTemplate(generated *protogen.GeneratedFile, context map[string]string
 	t := template.New("service.proto.tmpl").Funcs(map[string]interface{}{
 		"lower": strings.ToLower,
 	})
-	t = template.Must(t.ParseFiles("service.proto.tmpl"))
+	t = template.Must(t.Parse(serviceProtoTemplate))
 
 	err := t.Execute(generated, context)
 	if err != nil {
