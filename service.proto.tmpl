@@ -1,0 +1,43 @@
+
+import "google/protobuf/empty.proto";
+
+message Get{{.name}}Request {
+  int64 id = 1;
+}
+
+message Get{{.name}}Response {
+  {{.name}} {{.name|lower}} = 1;
+}
+
+message GetAll{{.name}}sResponse {
+  repeated {{.name}} {{.name|lower}}s = 1;
+}
+
+message Create{{.name}}Request {
+  {{.name}} {{.name|lower}} = 1;
+}
+
+message Create{{.name}}Response {
+  {{.name}} {{.name|lower}} = 1;
+}
+
+message Update{{.name}}Request {
+  int64 id = 1;
+  {{.name}} {{.name|lower}} = 2;
+}
+
+message Update{{.name}}Response {
+  {{.name}} {{.name|lower}} = 1;
+}
+
+message Delete{{.name}}Request {
+  int64 id = 1;
+}
+
+service ItemStorage {
+  rpc GetItem(GetItemRequest) returns (GetItemResponse);
+  rpc GetAllItems(google.protobuf.Empty) returns (GetAll{{.name}}sResponse);
+  rpc Create{{.name}} (Create{{.name}}Request) returns (Create{{.name}}Response);
+  rpc Update{{.name}} (Update{{.name}}Request) returns (Update{{.name}}Response);
+  rpc Delete(Delete{{.name}}Request) returns (google.protobuf.Empty);
+}

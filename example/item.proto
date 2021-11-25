@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package example;
+option go_package = "github.com/ehsundar/protoc-gen-proto-crud/example";
+
+// proto-crud:kind=model
+message Item {
+    string Name = 1;
+}
