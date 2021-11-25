@@ -23,7 +23,7 @@ type ItemStorageClient interface {
 	GetAllItems(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetAllItemsResponse, error)
 	CreateItem(ctx context.Context, in *CreateItemRequest, opts ...grpc.CallOption) (*CreateItemResponse, error)
 	UpdateItem(ctx context.Context, in *UpdateItemRequest, opts ...grpc.CallOption) (*UpdateItemResponse, error)
-	Delete(ctx context.Context, in *DeleteItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	DeleteItem(ctx context.Context, in *DeleteItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type itemStorageClient struct {
@@ -70,9 +70,9 @@ func (c *itemStorageClient) UpdateItem(ctx context.Context, in *UpdateItemReques
 	return out, nil
 }
 
-func (c *itemStorageClient) Delete(ctx context.Context, in *DeleteItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *itemStorageClient) DeleteItem(ctx context.Context, in *DeleteItemRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
-	err := c.cc.Invoke(ctx, "/example.ItemStorage/Delete", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/example.ItemStorage/DeleteItem", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ type ItemStorageServer interface {
 	GetAllItems(context.Context, *emptypb.Empty) (*GetAllItemsResponse, error)
 	CreateItem(context.Context, *CreateItemRequest) (*CreateItemResponse, error)
 	UpdateItem(context.Context, *UpdateItemRequest) (*UpdateItemResponse, error)
-	Delete(context.Context, *DeleteItemRequest) (*emptypb.Empty, error)
+	DeleteItem(context.Context, *DeleteItemRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedItemStorageServer()
 }
 
@@ -107,8 +107,8 @@ func (UnimplementedItemStorageServer) CreateItem(context.Context, *CreateItemReq
 func (UnimplementedItemStorageServer) UpdateItem(context.Context, *UpdateItemRequest) (*UpdateItemResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateItem not implemented")
 }
-func (UnimplementedItemStorageServer) Delete(context.Context, *DeleteItemRequest) (*emptypb.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+func (UnimplementedItemStorageServer) DeleteItem(context.Context, *DeleteItemRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteItem not implemented")
 }
 func (UnimplementedItemStorageServer) mustEmbedUnimplementedItemStorageServer() {}
 
@@ -195,20 +195,20 @@ func _ItemStorage_UpdateItem_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _ItemStorage_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _ItemStorage_DeleteItem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteItemRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ItemStorageServer).Delete(ctx, in)
+		return srv.(ItemStorageServer).DeleteItem(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/example.ItemStorage/Delete",
+		FullMethod: "/example.ItemStorage/DeleteItem",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ItemStorageServer).Delete(ctx, req.(*DeleteItemRequest))
+		return srv.(ItemStorageServer).DeleteItem(ctx, req.(*DeleteItemRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -237,8 +237,8 @@ var ItemStorage_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _ItemStorage_UpdateItem_Handler,
 		},
 		{
-			MethodName: "Delete",
-			Handler:    _ItemStorage_Delete_Handler,
+			MethodName: "DeleteItem",
+			Handler:    _ItemStorage_DeleteItem_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
