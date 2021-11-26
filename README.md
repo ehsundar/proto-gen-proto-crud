@@ -28,6 +28,40 @@ to generate gRPC and protobuf codes for go:
 protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative example/*.proto
 ```
 
+# Interact with server
+
+get one with id:
+
+```bash
+grpcurl -d '{"id":1}' -plaintext localhost:8000 example.ItemStorage.GetItem
+```
+
+get all:
+
+```bash
+grpcurl -plaintext localhost:8000 example.ItemStorage.GetAllItems
+```
+
+create one:
+
+```bash
+grpcurl -d '{"item": {"Name": "Ehsan"}}' -plaintext localhost:8000 example.ItemStorage.CreateItem
+```
+
+update one:
+
+```bash
+grpcurl -d '{"id": 2, "item": {"Name": "Mehdi"}}' -plaintext localhost:8000 example.ItemStorage.UpdateItem
+```
+
+delete one:
+
+```bash
+grpcurl -d '{"id": 1}' -plaintext localhost:8000 example.ItemStorage.DeleteItem
+```
+
+
+
 # TODO
 
 - [ ] Embed template inside binary
